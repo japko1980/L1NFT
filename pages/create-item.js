@@ -102,7 +102,7 @@ export default function CreateItem() {
         />
         {
           fileUrl && (
-            <img className="rounded mt-4" width="350" src={fileUrl} />
+            <h4>{fileUrl}</h4>
           )
         }
         <button onClick={createMarket} className="font-bold mt-4 bg-pink-500 text-white rounded p-4 shadow-lg">
