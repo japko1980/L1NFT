@@ -1,4 +1,5 @@
 import { useRef, useEffect } from 'react'
+import axios from 'axios'
 
 export const Molecule = ({
   src
@@ -10,7 +11,15 @@ export const Molecule = ({
     src && (async () => {
       const NGL = await import('ngl')
       const stage = new NGL.Stage(el.current)
-      stage.loadFile(src, { ext: 'pdb', defaultRepresentation: true });
+      const { data } = await axios.get(src);
+      const ext = data.startsWith('HEADER') ? 'pdb' : 'cif';
+      stage.loadFile(
+        new Blob([ data ], { type: 'text/plain'}),
+        {
+          ext,
+          defaultRepresentation: true
+        }
+      );
     })()
   }, [])
   

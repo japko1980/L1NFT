@@ -1,12 +1,9 @@
 import { useEffect, useState } from 'react'
 
 import styled from 'styled-components'
-import { InView } from 'react-intersection-observer';
-
-import { Molecule } from './Molecule'
 
 const BoxWrapper = styled.div`
-min-width: 300px;
+min-width: 378px;
 width: 100%;
 padding-bottom: 100%;
 position: relative;
