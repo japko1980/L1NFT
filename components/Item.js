@@ -65,7 +65,7 @@ export const Item = ({
     
     <Actions>
       <button className="bg-green-500 text-white font-bold py-2 px-4 rounded" onClick={() => buyNft(data)}>Buy</button>
-      <button className="bg-green-500 text-white font-bold py-2 px-4 rounded" onClick={onClick}>View</button>
+      {onClick && <button className="bg-green-500 text-white font-bold py-2 px-4 rounded" onClick={onClick}>View</button>}
       <button className="bg-green-500 text-white font-bold py-2 px-4 rounded" onClick={onTools}>Analysis</button>
       <button className="bg-green-500 text-white font-bold py-2 px-4 rounded" onClick={onVR}>Bioverse</button>
     </Actions>
