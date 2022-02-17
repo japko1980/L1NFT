@@ -13,6 +13,8 @@ export const Item = ({
   innerRef,
   buyNft,
   onClick,
+  onTools,
+  onVR,
 }) => {
 
   const { ref, inView, entry } = useInView({
@@ -37,10 +39,14 @@ export const Item = ({
   }, [ Boolean(inView) ])
 
   return(
-  <div className="border shadow rounded-xl overflow-hidden" ref={ref} onClick={onClick}>
-  <ContentBox>
+  <div className="border shadow rounded-xl overflow-hidden" ref={ref}>
+  <ContentBox onClick={onClick}>
     {data && <Molecule src={data?.image}/>}
   </ContentBox>
+  <div className="p-4 bg-black">
+    <button className="bg-pink-500 text-white font-bold py-2 px-4 rounded" onClick={onTools}>Tools</button>
+    <button className="bg-pink-500 text-white font-bold py-2 px-4 rounded float-right" onClick={onVR}>VR</button>
+  </div>
   <div className="p-4">
     <p style={{ height: '64px' }} className="text-2xl font-semibold">{data?.name}</p>
     <div style={{ height: '70px', overflow: 'hidden' }}>
@@ -51,6 +57,7 @@ export const Item = ({
     <p className="text-2xl mb-4 font-bold text-white">{data?.price} L1</p>
     <button className="w-full bg-pink-500 text-white font-bold py-2 px-12 rounded" onClick={() => buyNft(data)}>Buy</button>
   </div>
+
   </div>
   )
 }

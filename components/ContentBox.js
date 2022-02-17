@@ -33,10 +33,11 @@ export const ContentBox = ({
   item,
   innerRef,
   buyNft,
+  ...props
 }) => {
 
   return(
-  <BoxWrapper>
+  <BoxWrapper {...props}>
     {children}
   </BoxWrapper>
   )

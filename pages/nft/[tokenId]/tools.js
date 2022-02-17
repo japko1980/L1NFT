@@ -1,22 +1,29 @@
+import { useEffect, useState, useRef } from 'react'
+
 import { ethers } from 'ethers'
-import { useEffect, useState } from 'react'
+
 import axios from 'axios'
 import Web3Modal from "web3modal"
 
+
+import * as THREE from 'three';
+
 import { useRouter } from 'next/router'
 
-import { Item } from '../../components/Item'
+import { Item } from '../../../components/Item'
 
 import {
   nftaddress, nftmarketaddress
-} from '../../config'
+} from '../../../config'
 
-import NFT from '../../artifacts/contracts/NFT.sol/NFT.json'
-import Market from '../../artifacts/contracts/Market.sol/NFTMarket.json'
+import NFT from '../../../artifacts/contracts/NFT.sol/NFT.json'
+import Market from '../../../artifacts/contracts/Market.sol/NFTMarket.json'
+import { OneMinusDstAlphaFactor } from 'three'
 
 export default function NFTView() {
 
   const router = useRouter();
+  const el = useRef();
 
   const { tokenId } = router.query
 
@@ -24,7 +31,27 @@ export default function NFTView() {
   const [loadingState, setLoadingState] = useState('not-loaded')
   
   useEffect(() => {
-    loadNFT()
+
+    tokenId && (async () => {
+      const provider = new ethers.providers.JsonRpcProvider("https://rpcb.genesisL1.org")
+      const tokenContract = new ethers.Contract(nftaddress, NFT.abi, provider)
+      const tokenUri = await tokenContract.tokenURI(tokenId)
+      const file = (await axios.get(tokenUri)).data
+
+      const icn3d = await import('../../../lib/icn3d.module.js')
+
+      console.log({ icn3d })
+      
+      const icn3dui = new icn3d.iCn3DUI({
+        divid: 'icn3dui',
+        mmdbid: '1tup'
+        //url: tokenUri,
+      });
+  
+      icn3dui.show3DStructure();
+
+    })()
+
   }, [ tokenId ])
 
   async function loadNFT() {
@@ -67,18 +94,7 @@ export default function NFTView() {
   
   return (
     <div className="flex justify-center">
-      <div className="px-4" style={{ maxWidth: '1600px' }}>
-        <div className="pt-4">
-          {nft &&
-          <Item
-            item={nft}
-            buyNft={buyNft}
-            onClick={() => router.push(`/nft/${nft.itemId}`)}
-            onTools={() => router.push(`/nft/${nft.itemId}/tools`)}
-            onVR={() => router.push(`/nft/${nft.itemId}/vrtools`)}
-          />}
-        </div>
-      </div>
+      <div className="px-4" ref={el} id="icn3dui" />
     </div>
   )
 }
