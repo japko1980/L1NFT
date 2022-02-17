@@ -9,7 +9,7 @@ import { Item } from '../components/Item'
 
 import {
   nftaddress, nftmarketaddress
-} from '../../config'
+} from '../config'
 
 import NFT from '../artifacts/contracts/NFT.sol/NFT.json'
 import Market from '../artifacts/contracts/Market.sol/NFTMarket.json'
