@@ -1,5 +1,5 @@
 import '../styles/globals.css'
-import '../lib/icn3d_3.8.2.css'
+
 import Link from 'next/link'
 
 

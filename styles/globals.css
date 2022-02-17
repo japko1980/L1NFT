@@ -2,3 +2,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body, html {
+  height: 100vh;
+}
+
+div#__next {
+  height: 100%;
+}
+
+div#__next > div {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}

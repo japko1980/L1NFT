@@ -5,7 +5,6 @@ import { ethers } from 'ethers'
 import axios from 'axios'
 import Web3Modal from "web3modal"
 
-
 import * as THREE from 'three';
 
 import { useRouter } from 'next/router'
@@ -29,71 +28,34 @@ export default function NFTView() {
 
   const [nft, setNft] = useState()
   const [loadingState, setLoadingState] = useState('not-loaded')
+
+  const [ file, setFile ] = useState();
+  const [ size, setSize ] = useState();
+
+  useEffect(() => {
+    setSize([el.current.offsetWidth, el.current.offsetHeight])
+  }, [])
   
   useEffect(() => {
-
     tokenId && (async () => {
       const provider = new ethers.providers.JsonRpcProvider("https://rpcb.genesisL1.org")
       const tokenContract = new ethers.Contract(nftaddress, NFT.abi, provider)
       const tokenUri = await tokenContract.tokenURI(tokenId)
       const file = (await axios.get(tokenUri)).data
-      
-      const { data } = await axios.get(file.image);
-      const ext = data.startsWith('HEADER') ? 'pdb' : 'mmcif';
-
-      const icn3d = await import('../../../lib/icn3d.module.js')
-      const icn3dui = new icn3d.iCn3DUI({
-        divid: 'icn3dui',
-        url: `${ext}|${file.image}`,
-      });
-  
-      icn3dui.show3DStructure();
-
+      setFile(file.image);
     })()
 
   }, [ tokenId ])
-
-  async function loadNFT() {
-    const provider = new ethers.providers.JsonRpcProvider("https://rpcb.genesisL1.org")
-    const tokenContract = new ethers.Contract(nftaddress, NFT.abi, provider)
-    const marketContract = new ethers.Contract(nftmarketaddress, Market.abi, provider)
-    const data = await marketContract.fetchMarketItems()
-
-    const found = data.find(item => item.itemId.toNumber() === parseInt(tokenId))
-
-    found && setNft({
-      ...found,
-      price: ethers.utils.formatUnits(found.price.toString(), 'ether'),
-      getData: async () => {
-        const tokenUri = await tokenContract.tokenURI(tokenId)
-        try {
-          return (await axios.get(tokenUri)).data
-        } catch(error) {
-          return {}
-        }
-      },
-    });
-
-    setLoadingState('loaded')
-  }
-  async function buyNft(nft) {
-    const web3Modal = new Web3Modal()
-    const connection = await web3Modal.connect()
-    const provider = new ethers.providers.Web3Provider(connection)
-    const signer = provider.getSigner()
-    const contract = new ethers.Contract(nftmarketaddress, Market.abi, signer)
-
-    const price = ethers.utils.parseUnits(nft.price.toString(), 'ether')
-    const transaction = await contract.createMarketSale(nftaddress, nft.itemId, {
-      value: price
-    })
-    await transaction.wait()
-    loadNFT()
-  }
   
   return (
-    <div className="flex justify-center">
-      <div className="px-4" ref={el} id="icn3dui" />
+    <div className="flex justify-center" style={{ flex: 1, display: 'flex' }} ref={el}>
+      {file && size &&
+      <iframe
+        allowFullScreen={true}
+        src={`https://www.ncbi.nlm.nih.gov/Structure/icn3d/full.html?width=${size[0]}&height=${size[1]}&showcommand=0&shownote=0&mobilemenu=0&showtitle=0&url=${file}`}
+        style={{ border: 'none', flex: 1 }}
+      />
+      }
     </div>
   )
 }
