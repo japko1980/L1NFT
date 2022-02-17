@@ -4,6 +4,17 @@ import { useInView } from 'react-intersection-observer'
 import { ContentBox } from './ContentBox'
 import { Molecule } from './Molecule'
 
+import styled from 'styled-components'
+
+const Actions = styled.div`
+display: flex;
+& > button {
+  flex: 1;
+  margin: 0 5px;
+  font-size: 12px;
+}
+`
+
 export const Item = ({
   children,
   item: {
@@ -40,13 +51,9 @@ export const Item = ({
 
   return(
   <div className="border shadow rounded-xl overflow-hidden" ref={ref}>
-  <ContentBox onClick={onClick}>
+  <ContentBox>
     {data && <Molecule src={data?.image}/>}
   </ContentBox>
-  <div className="p-4 bg-black">
-    <button className="bg-pink-500 text-white font-bold py-2 px-4 rounded" onClick={onTools}>Tools</button>
-    <button className="bg-pink-500 text-white font-bold py-2 px-4 rounded float-right" onClick={onVR}>VR</button>
-  </div>
   <div className="p-4">
     <p style={{ height: '64px' }} className="text-2xl font-semibold">{data?.name}</p>
     <div style={{ height: '70px', overflow: 'hidden' }}>
@@ -55,7 +62,14 @@ export const Item = ({
   </div>
   <div className="p-4 bg-black">
     <p className="text-2xl mb-4 font-bold text-white">{data?.price} L1</p>
-    <button className="w-full bg-pink-500 text-white font-bold py-2 px-12 rounded" onClick={() => buyNft(data)}>Buy</button>
+    
+    <Actions>
+      <button className="bg-green-500 text-white font-bold py-2 px-4 rounded" onClick={() => buyNft(data)}>Buy</button>
+      <button className="bg-green-500 text-white font-bold py-2 px-4 rounded" onClick={onClick}>View</button>
+      <button className="bg-green-500 text-white font-bold py-2 px-4 rounded" onClick={onTools}>Analysis</button>
+      <button className="bg-green-500 text-white font-bold py-2 px-4 rounded" onClick={onVR}>Bioverse</button>
+    </Actions>
+
   </div>
 
   </div>
