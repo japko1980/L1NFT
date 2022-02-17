@@ -37,15 +37,14 @@ export default function NFTView() {
       const tokenContract = new ethers.Contract(nftaddress, NFT.abi, provider)
       const tokenUri = await tokenContract.tokenURI(tokenId)
       const file = (await axios.get(tokenUri)).data
+      
+      const { data } = await axios.get(file.image);
+      const ext = data.startsWith('HEADER') ? 'pdb' : 'cif';
 
       const icn3d = await import('../../../lib/icn3d.module.js')
-
-      console.log({ icn3d })
-      
       const icn3dui = new icn3d.iCn3DUI({
         divid: 'icn3dui',
-        mmdbid: '1tup'
-        //url: tokenUri,
+        url: `${ext}|${file.image}`,
       });
   
       icn3dui.show3DStructure();
