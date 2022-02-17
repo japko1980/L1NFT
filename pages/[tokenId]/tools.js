@@ -9,14 +9,14 @@ import * as THREE from 'three';
 
 import { useRouter } from 'next/router'
 
-import { Item } from '../../../components/Item'
+import { Item } from '../../components/Item'
 
 import {
   nftaddress, nftmarketaddress
-} from '../../../config'
+} from '../../config'
 
-import NFT from '../../../artifacts/contracts/NFT.sol/NFT.json'
-import Market from '../../../artifacts/contracts/Market.sol/NFTMarket.json'
+import NFT from '../../artifacts/contracts/NFT.sol/NFT.json'
+
 import { OneMinusDstAlphaFactor } from 'three'
 
 export default function NFTView() {
@@ -52,7 +52,7 @@ export default function NFTView() {
       {file && size &&
       <iframe
         allowFullScreen={true}
-        src={`https://vrmol.net/index.html?id=${file}&panelShow=1&mainMode=13&showSurface=1&surfaceOpc=1&surfaceType=1&colorMode=609&vmode=vr`}
+        src={`https://www.ncbi.nlm.nih.gov/Structure/icn3d/full.html?width=${size[0]}&height=${size[1]}&showcommand=0&shownote=0&mobilemenu=0&showtitle=0&url=${file}`}
         style={{ border: 'none', flex: 1 }}
       />
       }

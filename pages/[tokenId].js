@@ -5,14 +5,14 @@ import Web3Modal from "web3modal"
 
 import { useRouter } from 'next/router'
 
-import { Item } from '../../components/Item'
+import { Item } from '../components/Item'
 
 import {
   nftaddress, nftmarketaddress
 } from '../../config'
 
-import NFT from '../../artifacts/contracts/NFT.sol/NFT.json'
-import Market from '../../artifacts/contracts/Market.sol/NFTMarket.json'
+import NFT from '../artifacts/contracts/NFT.sol/NFT.json'
+import Market from '../artifacts/contracts/Market.sol/NFTMarket.json'
 
 export default function NFTView() {
 

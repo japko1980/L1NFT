@@ -94,9 +94,9 @@ export default function Home() {
               key={i}
               item={nft}
               buyNft={buyNft}
-              onClick={() => router.push(`/nft/${nft.itemId}`)}
-              onTools={() => router.push(`/nft/${nft.itemId}/tools`)}
-              onVR={() => router.push(`/nft/${nft.itemId}/vrtools`)}
+              onClick={() => router.push(`/${nft.itemId}`)}
+              onTools={() => router.push(`/${nft.itemId}/tools`)}
+              onVR={() => router.push(`/${nft.itemId}/vrtools`)}
             />)
           }
         </div>
