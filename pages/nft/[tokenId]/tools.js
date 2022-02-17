@@ -39,7 +39,7 @@ export default function NFTView() {
       const file = (await axios.get(tokenUri)).data
       
       const { data } = await axios.get(file.image);
-      const ext = data.startsWith('HEADER') ? 'pdb' : 'cif';
+      const ext = data.startsWith('HEADER') ? 'pdb' : 'mmcif';
 
       const icn3d = await import('../../../lib/icn3d.module.js')
       const icn3dui = new icn3d.iCn3DUI({
