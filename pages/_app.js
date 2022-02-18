@@ -1,5 +1,7 @@
 import '../styles/globals.css'
+
 import Link from 'next/link'
+
 
 function Marketplace({ Component, pageProps }) {
   return (

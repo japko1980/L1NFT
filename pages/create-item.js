@@ -96,10 +96,12 @@ export default function CreateItem() {
         />
         <input
           type="file"
+          accept=".pdb,.cif"
           name="Asset"
           className="my-4"
           onChange={onChange}
         />
+        <small>Only <strong>.pdb</strong> and <strong>.cif</strong> molecule description files accepted</small>
         {
           fileUrl && (
             <h4>{fileUrl}</h4>
