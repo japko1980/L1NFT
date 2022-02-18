@@ -1,3 +1,4 @@
+  GNU nano 4.8                                                                                                                                                                                                                                                                                                  index.js                                                                                                                                                                                                                                                                                                             
 import { ethers } from 'ethers'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
