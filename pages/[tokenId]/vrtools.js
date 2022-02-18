@@ -1,4 +1,3 @@
-  GNU nano 4.8                                                                                                                                                                                                                    vrtools.js                                                                                                                                                                                                                               
 import { useEffect, useState, useRef } from 'react'
 
 import { ethers } from 'ethers'
