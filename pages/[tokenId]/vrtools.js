@@ -1,3 +1,4 @@
+  GNU nano 4.8                                                                                                                                                                                                                    vrtools.js                                                                                                                                                                                                                               
 import { useEffect, useState, useRef } from 'react'
 
 import { ethers } from 'ethers'
@@ -50,7 +51,7 @@ export default function NFTView() {
       {file && size &&
       <iframe
         allowFullScreen={true}
-        src={`https://vrmol.net/index.html?id=${file}&panelShow=1&mainMode=13&showSurface=1&surfaceOpc=1&surfaceType=1&colorMode=609&vmode=vr`}
+        src={`https://vrmol.net/index.html?id=${file}&panelShow=1&mainMode=13&vrmode=vr`}
         style={{ border: 'none', flex: 1 }}
       />
       }
