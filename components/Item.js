@@ -1,3 +1,5 @@
+                                                                                                                                                                                                             Item.js                                                                                                                                                                                                                                
+import { useEffect, useState, useMemo } from 'react'
 import { useInView } from 'react-intersection-observer'
 
 import { ContentBox } from './ContentBox'
