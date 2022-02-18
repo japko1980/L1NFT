@@ -5,28 +5,28 @@ import Link from 'next/link'
 
 function Marketplace({ Component, pageProps }) {
   return (
-    <div>
-      <nav className="border-b p-6">
-        <p className="text-4xl font-bold">L1NFT market</p>
-        <div className="flex mt-4">
+    <div className="bg-black">
+      <nav className="text-center">
+        <h1 className="text-center text-white pt-6">MOLNFT</h1>
+        <div className="mt-4">
           <Link href="/">
-            <a className="mr-4 text-pink-500">
+            <a className="mr-4 text-white">
               Home
             </a>
           </Link>
           <Link href="/create-item">
-            <a className="mr-6 text-pink-500">
-              Create and sell NFT
+            <a className="mr-6 text-white">
+              Create
             </a>
           </Link>
           <Link href="/my-assets">
-            <a className="mr-6 text-pink-500">
-              My NFTs
+            <a className="mr-6 text-white">
+              My
             </a>
           </Link>
           <Link href="/creator-dashboard">
-            <a className="mr-6 text-pink-500">
-              Creator Dashboard
+            <a className="mr-6 text-white">
+              Minted
             </a>
           </Link>
         </div>
