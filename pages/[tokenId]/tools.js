@@ -52,7 +52,7 @@ export default function NFTView() {
       {file && size &&
       <iframe
         allowFullScreen={true}
-        src={`https://www.ncbi.nlm.nih.gov/Structure/icn3d/full.html?width=${size[0]}&height=${size[1]}&showcommand=0&shownote=0&mobilemenu=0&showtitle=0&url=${file}`}
+        src={`https://icn3d.genesisl1.io/full.html?width=${size[0]}&height=${size[1]}&showcommand=0&shownote=0&mobilemenu=0&showtitle=0&url=${file}`}
         style={{ border: 'none', flex: 1 }}
       />
       }
