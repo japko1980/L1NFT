@@ -12,7 +12,7 @@ function Marketplace({ Component, pageProps }) {
         <div className="mt-4">
           <Link href="/">
             <a className="mr-4 text-white text-xl">
-              Home
+              Gallery
             </a>
           </Link>
           <Link href="/create-item">
