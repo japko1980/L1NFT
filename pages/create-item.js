@@ -80,20 +80,21 @@ export default function CreateItem() {
     <div className="flex justify-center">
       <div className="w-1/2 flex flex-col pb-12">
         <input 
-          placeholder="Asset Name"
+          placeholder="Title"
           className="mt-8 border rounded p-4"
           onChange={e => updateFormInput({ ...formInput, name: e.target.value })}
         />
         <textarea
-          placeholder="Asset Description"
+          placeholder="Description"
           className="mt-2 border rounded p-4"
           onChange={e => updateFormInput({ ...formInput, description: e.target.value })}
         />
         <input
-          placeholder="Asset Price in Eth"
+          placeholder="MOLNFT Price in L1"
           className="mt-2 border rounded p-4"
           onChange={e => updateFormInput({ ...formInput, price: e.target.value })}
         />
+        <small>First tx will create MOLNFT, its FREE, only regular network fee. Second tx will list your MOLNFT in the Gallery with </strong>50 L1 fee!<strong></small>
         <input
           type="file"
           accept=".pdb,.cif"
@@ -104,11 +105,11 @@ export default function CreateItem() {
         <small>Only <strong>.pdb</strong> and <strong>.cif</strong> molecule description files accepted</small>
         {
           fileUrl && (
-            <h4>{fileUrl}</h4>
+            <h4 className="text-white">{fileUrl}</h4>
           )
         }
-        <button onClick={createMarket} className="font-bold mt-4 bg-pink-500 text-white rounded p-4 shadow-lg">
-          Create Digital Asset
+        <button onClick={createMarket} className="font-bold mt-4 bg-green-500 text-white rounded p-4 shadow-lg">
+          Create MOLNFT
         </button>
       </div>
     </div>
