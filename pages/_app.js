@@ -9,6 +9,7 @@ function Marketplace({ Component, pageProps }) {
     <div className="bg-black">
       <nav className="text-center">
         <h1 className="text-center text-white pt-6 text-3xl">MOLNFT</h1>
+        <h2 className="text-center text-white">GenesisL1 blockchain</h2>
         <div className="mt-4">
           <Link href="/">
             <a className="mr-4 text-white text-xl">
