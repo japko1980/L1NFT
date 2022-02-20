@@ -94,7 +94,7 @@ export default function CreateItem() {
           className="mt-2 border rounded p-4"
           onChange={e => updateFormInput({ ...formInput, price: e.target.value })}
         />
-        <small>Creation of MOLNFT is <strong>FREE</strong> and Gallery listing is <strong>50L1</strong></small>
+        <small>Creation of MOLNFT is <strong>FREE</strong> (tx #1) and Gallery listing is <strong>50L1</strong> (tx #2).</small>
         <input
           type="file"
           accept=".pdb,.cif"
