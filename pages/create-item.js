@@ -94,7 +94,7 @@ export default function CreateItem() {
           className="mt-2 border rounded p-4"
           onChange={e => updateFormInput({ ...formInput, price: e.target.value })}
         />
-        <small>First tx will create MOLNFT, its FREE, only regular network fee. Second tx will list your MOLNFT in the Gallery with </strong>50 L1 fee!<strong></small>
+        <small>Creation of MOLNFT is <strong>FREE</strong> and Gallery listing is <strong>50L1</strong></small>
         <input
           type="file"
           accept=".pdb,.cif"
