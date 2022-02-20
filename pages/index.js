@@ -1,30 +1,13 @@
 import { ethers } from 'ethers'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
-import Web3Modal from "web3modal"
 
-import Link from 'next/link'
-import { useRouter } from 'next/router'
+import { List } from '../components/List'
 
-import { ContentBox } from '../components/ContentBox'
-import { Item } from '../components/Item'
-
-import {
-  nftaddress, nftmarketaddress
-} from '../config'
-
-import NFT from '../artifacts/contracts/NFT.sol/NFT.json'
-import Market from '../artifacts/contracts/Market.sol/NFTMarket.json'
-
-let rpcEndpoint = null
-
-if (process.env.NEXT_PUBLIC_WORKSPACE_URL) {
-  rpcEndpoint = process.env.NEXT_PUBLIC_WORKSPACE_URL
-}
+import { getItems } from '../lib/getItems'
+import { decorateItems } from '../lib/decorateItems'
 
 export default function Home() {
-
-  const router = useRouter();
 
   const [nfts, setNfts] = useState([])
   const [loadingState, setLoadingState] = useState('not-loaded')
@@ -34,73 +17,17 @@ export default function Home() {
   }, [])
 
   async function loadNFTs() {
-    const provider = new ethers.providers.JsonRpcProvider("https://rpcb.genesisL1.org")
-    const tokenContract = new ethers.Contract(nftaddress, NFT.abi, provider)
-    const marketContract = new ethers.Contract(nftmarketaddress, Market.abi, provider)
-    const data = await marketContract.fetchMarketItems()
+
+    const items = await decorateItems(await getItems())
     
-    const items = await Promise.all(data.map(async (i, index) => {
 
-      return {
-        price: ethers.utils.formatUnits(i.price.toString(), 'ether'),
-        itemId: i.itemId.toNumber(),
-        seller: i.seller,
-        owner: i.owner,
-
-        getData: async () => {
-          const tokenUri = await tokenContract.tokenURI(i.tokenId)
-          try {
-            return (await axios.get(tokenUri)).data
-          } catch(error) {
-            return {}
-          }
-        },
-
-        /*
-        image: meta.data.image,
-        name: meta.data.name,
-        description: meta.data.description,
-        isMolecule: true,
-        */
-      }
-      
-    }))
     setNfts(items)
     setLoadingState('loaded')
   }
-  async function buyNft(nft) {
-    const web3Modal = new Web3Modal()
-    const connection = await web3Modal.connect()
-    const provider = new ethers.providers.Web3Provider(connection)
-    const signer = provider.getSigner()
-    const contract = new ethers.Contract(nftmarketaddress, Market.abi, signer)
-
-    const price = ethers.utils.parseUnits(nft.price.toString(), 'ether')
-    const transaction = await contract.createMarketSale(nftaddress, nft.itemId, {
-      value: price
-    })
-    await transaction.wait()
-    loadNFTs()
-  }
 
   if (loadingState === 'loaded' && !nfts.length) return (<h1 className="px-20 py-10 text-3xl">No items in marketplace</h1>)
+  
   return (
-    <div className="flex justify-center">
-      <div className="px-4" style={{ maxWidth: '1600px' }}>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
-          {
-            nfts.map((nft, i) =>
-            <Item
-              key={i}
-              item={nft}
-              buyNft={buyNft}
-              onClick={() => router.push(`/${nft.itemId}`)}
-              onTools={() => router.push(`/${nft.itemId}/tools`)}
-              onVR={() => router.push(`/${nft.itemId}/vrtools`)}
-            />)
-          }
-        </div>
-      </div>
-    </div>
+    <List items={nfts} loadItems={loadNFTs} />
   )
 }

@@ -34,22 +34,26 @@ export default function NFTView() {
     const data = await marketContract.fetchMarketItems()
 
     const found = data.find(item => item.itemId.toNumber() === parseInt(tokenId))
+    
+    const getData = async () => {
+      const tokenUri = await tokenContract.tokenURI(tokenId)
+      try {
+        return (await axios.get(tokenUri)).data
+      } catch(error) {
+        return {}
+      }
+    }
 
     found && setNft({
       ...found,
       price: ethers.utils.formatUnits(found.price.toString(), 'ether'),
-      getData: async () => {
-        const tokenUri = await tokenContract.tokenURI(tokenId)
-        try {
-          return (await axios.get(tokenUri)).data
-        } catch(error) {
-          return {}
-        }
-      },
+      getData,
+      ...await getData(),
     });
 
     setLoadingState('loaded')
   }
+
   async function buyNft(nft) {
     const web3Modal = new Web3Modal()
     const connection = await web3Modal.connect()
@@ -63,6 +67,10 @@ export default function NFTView() {
     })
     await transaction.wait()
     loadNFT()
+  }
+
+  if (!nft) {
+    return <></>
   }
   
   return (
@@ -78,6 +86,10 @@ export default function NFTView() {
             onVR={() => router.push(`/${nft.itemId}/vrtools`)}
           />}
         </div>
+
+        <br />
+        <p>Owner: {nft.owner}</p>
+        <p>Seller: {nft.seller}</p>
       </div>
     </div>
   )

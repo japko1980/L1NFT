@@ -3,10 +3,12 @@ import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
 const BoxWrapper = styled.div`
-min-width: 378px;
+//min-width: 378px;
 width: 100%;
 padding-bottom: 100%;
 position: relative;
+
+color: #fff;
 
 & > div {
   position: absolute;
