@@ -30,6 +30,11 @@ function Marketplace({ Component, pageProps }) {
               Minted
             </a>
           </Link>
+          <Link href="/about">
+            <a className="mr-6 text-white">
+              About
+            </a>
+          </Link>
         </div>
       </nav>
       <Component {...pageProps} />
