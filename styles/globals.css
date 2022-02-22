@@ -17,3 +17,7 @@ div#__next > div {
   display: flex;
   flex-direction: column;
 }
+
+input, textarea {
+  color: #333;
+}
