@@ -18,6 +18,17 @@ export default function CreateItem() {
   const [formInput, updateFormInput] = useState({ price: '', name: '', description: '' })
   const router = useRouter()
 
+  const updatePrice = price => {
+    updateFormInput({
+      ...formInput,
+      price
+    })
+  }
+
+  const _price = parseInt(formInput.price)
+
+  const priceError = isNaN(_price) || _price < 1 || _price > 10000;
+
   async function onChange(e) {
     const file = e.target.files[0]
     try {
@@ -33,9 +44,12 @@ export default function CreateItem() {
       console.log('Error uploading file: ', error)
     }  
   }
+
   async function createMarket() {
     const { name, description, price } = formInput
-    if (!name || !description || !price || !fileUrl) return
+    if (!name || !description || !price || !fileUrl) {
+      return
+    }
     /* first, upload to IPFS */
     const data = JSON.stringify({
       name, description, image: fileUrl
@@ -64,7 +78,7 @@ export default function CreateItem() {
     let value = event.args[2]
     let tokenId = value.toNumber()
 
-    const price = ethers.utils.parseUnits(formInput.price, 'ether')
+    const price = ethers.utils.parseUnits(String(_price), 'ether')
   
     /* then list the item for sale on the marketplace */
     contract = new ethers.Contract(nftmarketaddress, Market.abi, signer)
@@ -76,24 +90,31 @@ export default function CreateItem() {
     router.push('/')
   }
 
+  const isValid = (!priceError && formInput.price) && formInput.name && formInput.description && fileUrl
+
   return (
     <div className="flex justify-center">
-      <div className="w-1/2 flex flex-col pb-12">
+      <div className="w-1/2 flex flex-col pb-12" style={{ maxWidth: 800 }}>
         <input 
           placeholder="Asset Name"
+          autoFocus
           className="mt-8 border rounded p-4"
+          value={formInput.name}
           onChange={e => updateFormInput({ ...formInput, name: e.target.value })}
         />
         <textarea
           placeholder="Asset Description"
           className="mt-2 border rounded p-4"
+          value={formInput.description}
           onChange={e => updateFormInput({ ...formInput, description: e.target.value })}
         />
         <input
-          placeholder="Asset Price in Eth"
+          placeholder="Asset Price in L1 (1-10000 L1)"
           className="mt-2 border rounded p-4"
-          onChange={e => updateFormInput({ ...formInput, price: e.target.value })}
+          value={formInput.price}
+          onChange={e => updatePrice(e.target.value)}
         />
+        {formInput.price && priceError && <small>Price must be between 1 and 10000 L1</small> || ''}
         <input
           type="file"
           accept=".pdb,.cif"
@@ -107,7 +128,8 @@ export default function CreateItem() {
             <h4>{fileUrl}</h4>
           )
         }
-        <button onClick={createMarket} className="font-bold mt-4 bg-pink-500 text-white rounded p-4 shadow-lg">
+
+        <button disabled={!isValid} onClick={createMarket} className={`font-bold mt-4 ${isValid && `bg-pink-500 text-white` || `bg-gray-500 text-gray-400`} rounded p-4 shadow-lg`}>
           Create Digital Asset
         </button>
       </div>

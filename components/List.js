@@ -1,36 +1,17 @@
-import { ethers } from 'ethers'
-import Web3Modal from "web3modal"
-
 import { useRouter } from 'next/router'
 
-import {
-  nftmarketaddress, nftaddress
-} from '../config'
 
 import { Item } from '../components/Item'
-import Market from '../artifacts/contracts/Market.sol/NFTMarket.json'
+
+import { buyNft } from '../lib/buyNft'
 
 export const List = ({
   items,
   loadItems,
+  hideBuy,
 }) => {
 
   const router = useRouter();
-
-  async function buyNft(nft) {
-    const web3Modal = new Web3Modal()
-    const connection = await web3Modal.connect()
-    const provider = new ethers.providers.Web3Provider(connection)
-    const signer = provider.getSigner()
-    const contract = new ethers.Contract(nftmarketaddress, Market.abi, signer)
-
-    const price = ethers.utils.parseUnits(nft.price.toString(), 'ether')
-    const transaction = await contract.createMarketSale(nftaddress, nft.itemId, {
-      value: price
-    })
-    await transaction.wait()
-    loadItems()
-  }
 
   return(
   <div className="flex justify-center">
@@ -42,7 +23,7 @@ export const List = ({
             list
             key={i}
             item={nft}
-            buyNft={buyNft}
+            buyNft={!hideBuy && (() => buyNft({ nft, onSuccess: () => loadItems() }))}
             onClick={() => router.push(`/${nft.itemId}`)}
             onTools={() => router.push(`/${nft.itemId}/tools`)}
             onVR={() => router.push(`/${nft.itemId}/vrtools`)}

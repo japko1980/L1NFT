@@ -31,6 +31,6 @@ export default function MyAssets() {
   if (loadingState === 'loaded' && !nfts.length) return (<h1 className="px-20 py-10 text-3xl">No items in marketplace</h1>)
   
   return (
-    <List items={nfts} loadItems={loadNFTs} />
+    <List items={nfts} loadItems={loadNFTs} hideBuy />
   )
 }
