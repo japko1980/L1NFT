@@ -3,6 +3,8 @@ import axios from 'axios'
 
 import { getMolFormat } from '../lib/getMolFormat'
 
+import { FILESIZE_LIMIT_INDEX_PAGE } from '../etc/settings'
+
 export const Molecule = ({
   list,
   src,
@@ -17,7 +19,7 @@ export const Molecule = ({
 
       const { format , size } = await getMolFormat(src)
 
-      if (list && size > 1_000_000) {
+      if (list && size > FILESIZE_LIMIT_INDEX_PAGE) {
         return setError('Preview is too big for list page')
       }
 

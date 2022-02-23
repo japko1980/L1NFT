@@ -1,0 +1,1 @@
+export const FILESIZE_LIMIT_INDEX_PAGE = 4_000_000 // 4 MB
