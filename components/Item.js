@@ -5,8 +5,6 @@ import { ContentBox } from './ContentBox'
 import { Molecule } from './Molecule'
 import { getMolFormat } from '../lib/getMolFormat'
 
-import { FILESIZE_LIMIT_INDEX_PAGE } from '../etc/config'
-
 import styled from 'styled-components'
 
 const Actions = styled.div`
@@ -58,8 +56,8 @@ export const Item = ({
     })()
   }, [ Boolean(inView) ])
 
-  //const show = data && (data.format !== 'cif' || data?.size < FILESIZE_LIMIT_INDEX_PAGE)
-  const show = true
+  const show = data && data.format !== 'cif'
+  //const show = true
 
   return(
   <div className="border shadow rounded-xl overflow-hidden" ref={ref} style={{ width: '100%' }}>
