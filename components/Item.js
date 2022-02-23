@@ -5,6 +5,8 @@ import { ContentBox } from './ContentBox'
 import { Molecule } from './Molecule'
 import { getMolFormat } from '../lib/getMolFormat'
 
+import { FILESIZE_LIMIT_ANALYSIS_BUTTON } from '../etc/settings'
+
 import styled from 'styled-components'
 
 const Actions = styled.div`
@@ -56,9 +58,8 @@ export const Item = ({
     })()
   }, [ Boolean(inView) ])
 
-  const show = data && data.format !== 'cif'
-  //const show = true
-
+  const show = data?.size < FILESIZE_LIMIT_ANALYSIS_BUTTON
+  
   return(
   <div className="border shadow rounded-xl overflow-hidden" ref={ref} style={{ width: '100%' }}>
   <ContentBox>
@@ -76,8 +77,8 @@ export const Item = ({
     <Actions>
       {buyNft && <button className="bg-green-500 text-white font-bold py-2 px-4 rounded" onClick={() => buyNft(data)}>Accio</button>}
       {onClick && <button className="bg-green-500 text-white font-bold py-2 px-4 rounded" onClick={onClick}>View</button>}
-      {show && <button className="bg-green-500 text-white font-bold py-2 px-4 rounded" onClick={onTools}>Analysis</button>}
-      {show && <button className="bg-green-500 text-white font-bold py-2 px-4 rounded" onClick={onVR}>Bioverse</button>}
+      {show && data.format !== 'cif' && <button className="bg-green-500 text-white font-bold py-2 px-4 rounded" onClick={onTools}>Analysis</button>}
+      {show && data.format !== 'cif' && <button className="bg-green-500 text-white font-bold py-2 px-4 rounded" onClick={onVR}>Bioverse</button>}
     </Actions>
   </div>
 

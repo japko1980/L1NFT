@@ -104,7 +104,7 @@ export default function NFTView() {
       {file && size &&
       <iframe
         allowFullScreen={true}
-        src={`https://vrmol.net/index.html?id=${file}&panelShow=1&mainMode=13&vrmode=vr`}
+        src={`https://vrmol.net/index.html?type=cif&id=${file}&panelShow=1&mainMode=13&vrmode=vr`}
         style={{ border: 'none', flex: 1 }}
       />
       }

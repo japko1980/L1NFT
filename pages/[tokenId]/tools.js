@@ -9,6 +9,7 @@ import axios from 'axios'
 import { useRouter } from 'next/router'
 
 import { buyNft } from '../../lib/buyNft'
+import { getMolFormat } from '../../lib/getMolFormat'
 
 import {
   nftaddress, nftmarketaddress
@@ -75,11 +76,14 @@ export default function NFTView() {
         }
       }
 
+      const asyncData = await getData()
+
       const nftData = {
         ...found,
         price: ethers.utils.formatUnits(found.price.toString(), 'ether'),
         getData,
-        ...await getData(),
+        ...asyncData,
+        ...await getMolFormat(asyncData.image)
       }
 
       found && setNft(nftData);
@@ -105,7 +109,7 @@ export default function NFTView() {
       {file && size &&
       <iframe
         allowFullScreen={true}
-        src={`https://icn3d.genesisl1.io/full.html?width=${size[0]}&height=${size[1]}&showcommand=0&shownote=0&mobilemenu=0&showtitle=0&url=${file}`}
+        src={`https://icn3d.genesisl1.io/full.html?type=${nft?.format}&width=${size[0]}&height=${size[1]}&showcommand=0&shownote=0&mobilemenu=0&showtitle=0&url=${file}`}
         style={{ border: 'none', flex: 1 }}
       />
       }
