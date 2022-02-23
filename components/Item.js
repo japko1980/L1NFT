@@ -5,6 +5,8 @@ import { ContentBox } from './ContentBox'
 import { Molecule } from './Molecule'
 import { getMolFormat } from '../lib/getMolFormat'
 
+import { FILESIZE_LIMIT_INDEX_PAGE } from '../etc/config'
+
 import styled from 'styled-components'
 
 const Actions = styled.div`
@@ -56,10 +58,11 @@ export const Item = ({
     })()
   }, [ Boolean(inView) ])
 
-  const show = data && (data.format !== 'cif' || data?.size < 5_000_000)
+  //const show = data && (data.format !== 'cif' || data?.size < FILESIZE_LIMIT_INDEX_PAGE)
+  const show = true
 
   return(
-  <div className="border shadow rounded-xl overflow-hidden" ref={ref}>
+  <div className="border shadow rounded-xl overflow-hidden" ref={ref} style={{ width: '100%' }}>
   <ContentBox>
     {data && <Molecule list={list} src={data?.image}/>}
   </ContentBox>
@@ -73,13 +76,19 @@ export const Item = ({
     <p className="text-2xl mb-4 font-bold text-white">{data?.price} L1</p>
     
     <Actions>
-      <button className="bg-green-500 text-white font-bold py-2 px-4 rounded" onClick={() => buyNft(data)}>Accio</button>
+      {buyNft && <button className="bg-green-500 text-white font-bold py-2 px-4 rounded" onClick={() => buyNft(data)}>Accio</button>}
       {onClick && <button className="bg-green-500 text-white font-bold py-2 px-4 rounded" onClick={onClick}>View</button>}
       {show && <button className="bg-green-500 text-white font-bold py-2 px-4 rounded" onClick={onTools}>Analysis</button>}
       {show && <button className="bg-green-500 text-white font-bold py-2 px-4 rounded" onClick={onVR}>Bioverse</button>}
     </Actions>
-
   </div>
+
+  {!list &&
+  <div className="p-4 bg-black" style={{ wordBreak: 'break-all' }}>
+    {data?.owner && data.owner !== '0x0000000000000000000000000000000000000000' && <p><strong>Owner</strong> {data.owner}</p> || <p>No current owner</p>}
+    {data?.seller && <p><strong>Seller</strong> {data.seller}</p>}
+  </div>
+  }
 
   </div>
   )

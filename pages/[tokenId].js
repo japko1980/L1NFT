@@ -7,6 +7,8 @@ import { useRouter } from 'next/router'
 
 import { Item } from '../components/Item'
 
+import { buyNft } from '../lib/buyNft'
+
 import {
   nftaddress, nftmarketaddress
 } from '../config'
@@ -31,8 +33,8 @@ export default function NFTView() {
     const provider = new ethers.providers.JsonRpcProvider("https://rpcb.genesisL1.org")
     const tokenContract = new ethers.Contract(nftaddress, NFT.abi, provider)
     const marketContract = new ethers.Contract(nftmarketaddress, Market.abi, provider)
-    const data = await marketContract.fetchMarketItems()
 
+    const data = await marketContract.fetchMarketItems()
     const found = data.find(item => item.itemId.toNumber() === parseInt(tokenId))
     
     const getData = async () => {
@@ -54,42 +56,23 @@ export default function NFTView() {
     setLoadingState('loaded')
   }
 
-  async function buyNft(nft) {
-    const web3Modal = new Web3Modal()
-    const connection = await web3Modal.connect()
-    const provider = new ethers.providers.Web3Provider(connection)
-    const signer = provider.getSigner()
-    const contract = new ethers.Contract(nftmarketaddress, Market.abi, signer)
-
-    const price = ethers.utils.parseUnits(nft.price.toString(), 'ether')
-    const transaction = await contract.createMarketSale(nftaddress, nft.itemId, {
-      value: price
-    })
-    await transaction.wait()
-    loadNFT()
-  }
-
   if (!nft) {
     return <></>
   }
   
   return (
     <div className="flex justify-center">
-      <div className="px-4" style={{ maxWidth: '1600px' }}>
+      <div className="px-4" style={{ maxWidth: '800px', flex: 1 }}>
         <div className="pt-4">
           {nft &&
           <Item
             item={nft}
-            buyNft={buyNft}
+            buyNft={() => buyNft({ nft, onSuccess: () => loadNFT() })}
             //onClick={() => router.push(`/${nft.itemId}`)}
             onTools={() => router.push(`/${nft.itemId}/tools`)}
             onVR={() => router.push(`/${nft.itemId}/vrtools`)}
           />}
         </div>
-
-        <br />
-        <p>Owner: {nft.owner}</p>
-        <p>Seller: {nft.seller}</p>
       </div>
     </div>
   )
