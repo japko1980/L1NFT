@@ -4,6 +4,8 @@ import { create as ipfsHttpClient } from 'ipfs-http-client'
 import { useRouter } from 'next/router'
 import Web3Modal from 'web3modal'
 
+import { Molecule } from '../components/Molecule'
+
 const client = ipfsHttpClient('https://ipfs.infura.io:5001/api/v0')
 
 import {
@@ -15,6 +17,10 @@ import Market from '../artifacts/contracts/Market.sol/NFTMarket.json'
 
 export default function CreateItem() {
   const [fileUrl, setFileUrl] = useState(null)
+  
+  const [isUploading, setIsUploading] = useState(false)
+  const [progress, setProgress] = useState(0)
+
   const [formInput, updateFormInput] = useState({ price: '', name: '', description: '' })
   const router = useRouter()
 
@@ -30,19 +36,30 @@ export default function CreateItem() {
   const priceError = isNaN(_price) || _price < 1 || _price > 10000;
 
   async function onChange(e) {
+
+    setIsUploading(true);
+
     const file = e.target.files[0]
+
+    const size = file.size;
+
     try {
       const added = await client.add(
         file,
         {
-          progress: (prog) => console.log(`received: ${prog}`)
+          progress: current => {
+            console.log(current, size, current/size)
+            setProgress(current/size)
+          }
         }
       )
       const url = `https://ipfs.infura.io/ipfs/${added.path}`
       setFileUrl(url)
     } catch (error) {
       console.log('Error uploading file: ', error)
-    }  
+    }
+
+    setIsUploading(false);
   }
 
   async function createMarket() {
@@ -63,6 +80,8 @@ export default function CreateItem() {
       console.log('Error uploading file: ', error)
     }  
   }
+
+  console.log(progress)
 
   async function createSale(url) {
     const web3Modal = new Web3Modal()
@@ -126,9 +145,26 @@ export default function CreateItem() {
           onChange={onChange}
         />
         <small>Only <strong>.pdb</strong> and <strong>.cif</strong> molecule description files accepted</small>
+
+        {isUploading &&
+        <div style={{ position: 'relative', padding: 5 }}>
+          &nbsp;
+          <div style={{ position: 'absolute', top: 0, left: 0, background: '#333', width: `${progress * 100}%`, height: '100%', zIndex: 0, overflow: 'visible', whiteSpace: 'nowrap', padding: 5 }}>
+            Uploading {(progress * 100).toFixed(0)}%...
+          </div>
+        </div>
+        }
+
         {
           fileUrl && (
+          <div>
             <h4 className="text-white">{fileUrl}</h4>
+            <div>
+              <div style={{ width: 300, height: 300, position: 'relative', display: 'inline-block' }}>
+                <Molecule src={fileUrl} />
+              </div>
+            </div>
+          </div>
           )
         }
 
