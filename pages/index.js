@@ -17,11 +17,7 @@ export default function Home() {
   }, [])
 
   async function loadNFTs() {
-
     const items = await decorateItems(await getItems())
-
-    console.log(items)
-
     setNfts(items)
     setLoadingState('loaded')
   }
