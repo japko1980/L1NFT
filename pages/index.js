@@ -11,7 +11,7 @@ export default function Home() {
 
   const [nfts, setNfts] = useState([])
   const [loadingState, setLoadingState] = useState('not-loaded')
-  
+
   useEffect(() => {
     loadNFTs()
   }, [])
@@ -19,14 +19,15 @@ export default function Home() {
   async function loadNFTs() {
 
     const items = await decorateItems(await getItems())
-    
+
+    console.log(items)
 
     setNfts(items)
     setLoadingState('loaded')
   }
 
   if (loadingState === 'loaded' && !nfts.length) return (<h1 className="px-20 py-10 text-3xl">No items in marketplace</h1>)
-  
+
   return (
     <List items={nfts} loadItems={loadNFTs} />
   )
