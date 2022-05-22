@@ -67,8 +67,6 @@ export default function NFTView() {
     setLoadingState('loaded')
   }
 
-  console.log(nft)
-
   if (!nft) {
     return <></>
   }

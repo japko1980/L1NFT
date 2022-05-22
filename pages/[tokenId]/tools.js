@@ -57,7 +57,7 @@ export default function NFTView() {
   useEffect(() => {
     el.current && setSize([el.current.offsetWidth, el.current.offsetHeight])
   }, [ nft ])
-  
+
   useEffect(() => {
 
     tokenId && (async () => {
@@ -80,13 +80,13 @@ export default function NFTView() {
 
       const nftData = {
         ...found,
-        price: ethers.utils.formatUnits(found.price.toString(), 'ether'),
+        price: found && ethers.utils.formatUnits(found.price.toString(), 'ether'),
         getData,
         ...asyncData,
         ...await getMolFormat(asyncData.image)
       }
 
-      found && setNft(nftData);
+      setNft(nftData);
 
       setFile(nftData.image);
     })()
@@ -96,15 +96,15 @@ export default function NFTView() {
   if (!nft) {
     return ''
   }
-  
+
   return (
     <>
-    
+
     <Header>
       <h1>{nft?.name}</h1>
       <h3>{nft?.description}</h3>
     </Header>
-    
+
     <div className="flex justify-center" style={{ flex: 1, display: 'flex' }} ref={el}>
       {file && size &&
       <iframe
@@ -114,7 +114,7 @@ export default function NFTView() {
       />
       }
     </div>
-    
+
     <Footer>
       {buyNft && <button className="bg-green-500 text-white font-bold py-2 px-4 rounded" onClick={() => buyNft({ nft })}>Accio ({nft.price} L1)</button>}
       <button className="bg-green-500 text-white font-bold py-2 px-4 rounded" onClick={() => router.push(`/${nft.itemId}`)}>View</button>
