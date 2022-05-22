@@ -67,6 +67,8 @@ export default function NFTView() {
     setLoadingState('loaded')
   }
 
+  console.log(nft)
+
   if (!nft) {
     return <></>
   }
@@ -80,8 +82,8 @@ export default function NFTView() {
             item={nft}
             buyNft={() => buyNft({ nft, onSuccess: () => loadNFT() })}
             //onClick={() => router.push(`/${nft.itemId}`)}
-            onTools={() => router.push(`/${nft.itemId}/tools`)}
-            onVR={() => router.push(`/${nft.itemId}/vrtools`)}
+            onTools={() => router.push(`/${tokenId}/tools`)}
+            onVR={() => router.push(`/${tokenId}/vrtools`)}
           />}
         </div>
       </div>
