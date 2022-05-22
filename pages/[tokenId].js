@@ -56,8 +56,6 @@ export default function NFTView() {
 
     const nftData = await getData(tokenId);
 
-    console.log(nftData)
-
     nftData && setNft({
       getData,
       ...await getData(),
