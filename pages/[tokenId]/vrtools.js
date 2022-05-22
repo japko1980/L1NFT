@@ -66,6 +66,8 @@ export default function NFTView() {
       const data = await marketContract.fetchMarketItems()
       const found = data.find(item => item.itemId.toNumber() === parseInt(tokenId))
 
+      console.log(found)
+
       const getData = async () => {
         const tokenUri = await tokenContract.tokenURI(tokenId)
         try {

@@ -65,7 +65,7 @@ export default function NFTView() {
       const tokenContract = new ethers.Contract(nftaddress, NFT.abi, provider)
       const marketContract = new ethers.Contract(nftmarketaddress, Market.abi, provider)
       const data = await marketContract.fetchMarketItems()
-      const found = data.find(item => item.itemId.toNumber() === parseInt(tokenId))
+      const found = data.find(item => item.tokenId.toNumber() === parseInt(tokenId))
 
       const getData = async () => {
         const tokenUri = await tokenContract.tokenURI(tokenId)
@@ -80,6 +80,7 @@ export default function NFTView() {
 
       const nftData = {
         ...found,
+        found: Boolean(found),
         price: found && ethers.utils.formatUnits(found.price.toString(), 'ether'),
         getData,
         ...asyncData,
@@ -116,9 +117,9 @@ export default function NFTView() {
     </div>
 
     <Footer>
-      {buyNft && <button className="bg-green-500 text-white font-bold py-2 px-4 rounded" onClick={() => buyNft({ nft })}>Accio ({nft.price} L1)</button>}
-      <button className="bg-green-500 text-white font-bold py-2 px-4 rounded" onClick={() => router.push(`/${nft.itemId}`)}>View</button>
-      <button className="bg-green-500 text-white font-bold py-2 px-4 rounded" onClick={() => router.push(`/${nft.itemId}/vrtools`)}>Bioverse</button>
+      {nft.found && <button className="bg-green-500 text-white font-bold py-2 px-4 rounded" onClick={() => buyNft({ nft })}>Accio ({nft.price} L1)</button>}
+      <button className="bg-green-500 text-white font-bold py-2 px-4 rounded" onClick={() => router.push(`/${tokenId}`)}>View</button>
+      <button className="bg-green-500 text-white font-bold py-2 px-4 rounded" onClick={() => router.push(`/${tokenId}/vrtools`)}>Bioverse</button>
     </Footer>
     </>
   )
